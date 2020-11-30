@@ -64,13 +64,8 @@ async function run() {
         // Strip the cwd, a slash and the host directory from S3 Key
         //   /home/runner/work/$folder
         //                    ^
-        let cwdLength = process.cwd().length + config.directory.length + 2
-        const prefix = `${config.awsKeyPrefix}/`
-        if (config.awsKeyPrefix === '') {
-          // If there is no key prefix, we strip the initial slash as well.
-          cwdLength++
-        }
-        const s3Key = `${prefix}${file.substr(cwdLength)}`
+        let cwdLength = process.cwd().length + config.directory.length + 1
+        const s3Key = `${config.awsKeyPrefix}${file.substr(cwdLength)}`
 
         return await s3.upload({
           Bucket: config.bucket,
