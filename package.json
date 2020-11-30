@@ -1,0 +1,32 @@
+{
+  "name": "@vexelabs/s3-deploy",
+  "version": "1.0.0-rc1",
+  "description": "Automatically deploy preview builds to Amazon S3 using GitHub Actions",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "compile": "ncc build src/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vexelabs/s3-deploy"
+  },
+  "author": "me@supergrecko.com",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/vexelabs/s3-deploy/issues"
+  },
+  "homepage": "https://github.com/vexelabs/s3-deploy#readme",
+  "dependencies": {
+    "@actions/github": "^4.0.0",
+    "@actions/glob": "^0.1.1",
+    "aws-sdk": "2.799.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.2",
+    "@types/node-fetch": "^2.5.7",
+    "@types/uuid": "^8.3.0",
+    "@vercel/ncc": "^0.25.1"
+  },
+  "keywords": ["s3", "aws", "github actions"]
+}

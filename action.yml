@@ -1,0 +1,40 @@
+name: S3 Deploy
+author: vexelabs contributors
+description: Automatically deploy directories to an AWS S3 bucket
+
+inputs:
+  aws-key-id:
+    description: AWS Key ID to use
+    required: true
+
+  aws-secret-access-key:
+    description: AWS Secret Access Key to use
+    required: true
+
+  aws-bucket:
+    description: AWS S3 Bucket name
+    required: true
+
+  aws-region:
+    description: AWS region to deploy to
+    required: true
+
+  aws-key-prefix:
+    description: Path prefix for the target S3 Key
+    required: false
+
+  directory:
+    description: Directory on Actions runner to upload to S3
+    required: true
+
+  empty-bucket:
+    description: Empties the old contents in the bucket before uploading the new files
+    required: true
+
+runs:
+  using: node12
+  main: dist/index.js
+
+branding:
+  icon: archive
+  color: blue
