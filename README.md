@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Application
         run: ...
-      - uses: vexelabs/s3-deploy@v1-rc1
+      - uses: vexelabs/s3-deploy@v1-rc3
         with:
           aws-key-id: ${{ secrets.AWS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
