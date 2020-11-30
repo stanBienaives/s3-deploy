@@ -65,10 +65,7 @@ async function run() {
         //   /home/runner/work/$folder
         //                    ^
         let cwdLength = process.cwd().length + config.directory.length + 1
-        const prefix = config.awsKeyPrefix !== ''
-          ? `${config.awsKeyPrefix}/`
-          : ''
-        const s3Key = `${prefix}${file.substr(cwdLength)}`
+        const s3Key = `${config.awsKeyPrefix}${file.substr(cwdLength)}`
 
         return await s3.upload({
           Bucket: config.bucket,
