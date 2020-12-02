@@ -1,7 +1,8 @@
 import * as core from '@actions/core'
-import * as glob from '@actions/glob'
 import * as aws from 'aws-sdk'
+import * as mime from 'mime-types'
 import * as fs from 'fs'
+import glob from 'fast-glob'
 
 const input = (k: string, required: boolean = true) => core.getInput(k, { required })
 
@@ -47,35 +48,43 @@ async function run() {
     }
   }
 
-  const globber = await glob.create(`${config.directory}/**/*.*`, {
-    followSymbolicLinks: false
+  const files = await glob(`${config.directory}/**`, {
+    followSymbolicLinks: false,
+    onlyFiles: true
   })
-  const files = await globber.glob()
-
   core.info(`[s3-deploy] Found ${files.length} files to upload..`)
 
   await Promise.all(
     files
-      .filter(async file => {
-        const stat = await fs.promises.stat(file)
-        return stat.isFile()
-      })
       .map(async file => {
-        // Strip the cwd, a slash and the host directory from S3 Key
-        //   /home/runner/work/$folder
-        //                    ^
-        let cwdLength = process.cwd().length + config.directory.length + 1
+        // Strip a slash and the host directory from S3 Key
+        //   $folder/path/to/file
+        //   ^^^^^^^^
+        let baseKeyLength = config.directory.length
         if (config.awsKeyPrefix === '') {
-          // Strip the leading slash as well
-          cwdLength++
+          // If we're in the root directory
+          baseKeyLength++
         }
-        const s3Key = `${config.awsKeyPrefix}${file.substr(cwdLength)}`
+        const s3Key = `${config.awsKeyPrefix}${file.substr(baseKeyLength)}`
+
+        // Try to get the mime type of the file, default to undefined if it
+        // could not be resolved.
+        let mimeType: string | undefined | false = mime.lookup(file)
+        if (mimeType === false) {
+          mimeType = undefined
+        }
+
+        const stream = fs.createReadStream(file)
+        stream.on('error', (e) => {
+          core.error(`Error using read stream (${file}): [${e.name}] ${e.message}`)
+        })
 
         return await s3.upload({
           Bucket: config.bucket,
-          Body: fs.createReadStream(file),
+          Body: stream,
           ACL: 'public-read',
-          Key: s3Key
+          Key: s3Key,
+          ContentType: mimeType
         }).promise()
       })
   )
