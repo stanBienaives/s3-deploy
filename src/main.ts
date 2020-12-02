@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import * as glob from '@actions/glob'
 import * as aws from 'aws-sdk'
+import * as mime from 'mime-types'
 import * as fs from 'fs'
 
 const input = (k: string, required: boolean = true) => core.getInput(k, { required })
@@ -61,6 +62,7 @@ async function run() {
         return stat.isFile()
       })
       .map(async file => {
+        core.info(`[s3-deploy]   Preparing to upload ${file}`)
         // Strip the cwd, a slash and the host directory from S3 Key
         //   /home/runner/work/$folder
         //                    ^
@@ -71,12 +73,23 @@ async function run() {
         }
         const s3Key = `${config.awsKeyPrefix}${file.substr(cwdLength)}`
 
-        return await s3.upload({
+        // Try to get the mime type of the file, default to undefined if it
+        // could not be resolved.
+        let mimeType: string | undefined | false = mime.lookup(file)
+        if (mimeType === false) {
+          mimeType = undefined
+        }
+
+        await s3.upload({
           Bucket: config.bucket,
           Body: fs.createReadStream(file),
           ACL: 'public-read',
-          Key: s3Key
+          Key: s3Key,
+          ContentType: mimeType
         }).promise()
+
+        core.info(`[s3-deploy]    Uploaded ${file}`)
+        return true
       })
   )
 }
