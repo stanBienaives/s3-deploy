@@ -57,15 +57,15 @@ async function run() {
   await Promise.all(
     files
       .map(async file => {
-        // Strip the cwd, a slash and the host directory from S3 Key
-        //   /home/runner/work/$folder
-        //                    ^
-        let cwdLength = process.cwd().length + config.directory.length + 1
+        // Strip a slash and the host directory from S3 Key
+        //   $folder/path/to/file
+        //   ^^^^^^^^
+        let baseKeyLength = config.directory.length
         if (config.awsKeyPrefix === '') {
-          // Strip the leading slash as well
-          cwdLength++
+          // If we're in the root directory
+          baseKeyLength++
         }
-        const s3Key = `${config.awsKeyPrefix}${file.substr(cwdLength)}`
+        const s3Key = `${config.awsKeyPrefix}${file.substr(baseKeyLength)}`
 
         // Try to get the mime type of the file, default to undefined if it
         // could not be resolved.
