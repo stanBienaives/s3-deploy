@@ -62,7 +62,6 @@ async function run() {
         return stat.isFile()
       })
       .map(async file => {
-        core.info(`[s3-deploy]   Preparing to upload ${file}`)
         // Strip the cwd, a slash and the host directory from S3 Key
         //   /home/runner/work/$folder
         //                    ^
@@ -80,16 +79,18 @@ async function run() {
           mimeType = undefined
         }
 
-        await s3.upload({
+        const stream = fs.createReadStream(file)
+        stream.on('error', (e) => {
+          core.error(`Error using read stream (${file}): [${e.name}] ${e.message}`)
+        })
+
+        return await s3.upload({
           Bucket: config.bucket,
-          Body: fs.createReadStream(file),
+          Body: stream,
           ACL: 'public-read',
           Key: s3Key,
           ContentType: mimeType
         }).promise()
-
-        core.info(`[s3-deploy]    Uploaded ${file}`)
-        return true
       })
   )
 }
