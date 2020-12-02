@@ -1,6 +1,6 @@
 {
   "name": "@vexelabs/s3-deploy",
-  "version": "1.0.0-rc2",
+  "version": "1.0.0-rc4",
   "description": "Automatically deploy preview builds to Amazon S3 using GitHub Actions",
   "private": true,
   "main": "dist/index.js",
@@ -19,7 +19,6 @@
   "homepage": "https://github.com/vexelabs/s3-deploy#readme",
   "dependencies": {
     "@actions/github": "^4.0.0",
-    "@actions/glob": "^0.1.1",
     "mime-types": "^2.1.27",
     "aws-sdk": "2.799.0",
     "fast-glob": "^3.2.4"
