@@ -20,10 +20,13 @@
   "dependencies": {
     "@actions/github": "^4.0.0",
     "@actions/glob": "^0.1.1",
-    "aws-sdk": "2.799.0"
+    "mime-types": "^2.1.27",
+    "aws-sdk": "2.799.0",
+    "fast-glob": "^3.2.4"
   },
   "devDependencies": {
     "typescript": "^4.1.2",
+    "@types/mime-types": "^2.1.0",
     "@types/node-fetch": "^2.5.7",
     "@types/uuid": "^8.3.0",
     "@vercel/ncc": "^0.25.1"
