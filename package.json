@@ -1,6 +1,6 @@
 {
   "name": "@vexelabs/s3-deploy",
-  "version": "1.0.0-rc4",
+  "version": "1.0.0",
   "description": "Automatically deploy preview builds to Amazon S3 using GitHub Actions",
   "private": true,
   "main": "dist/index.js",
