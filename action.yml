@@ -1,4 +1,4 @@
-name: S3 Deploy
+name: AWS S3 Deploy
 author: vexelabs contributors
 description: Automatically deploy directories to an AWS S3 bucket
 
