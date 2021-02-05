@@ -31,6 +31,10 @@ inputs:
     description: Empties the old contents in the bucket before uploading the new files
     required: true
 
+  acl-private:
+    description: 'Set the ACL of the documents to privated (default public-read)'
+    required: false
+
 runs:
   using: node12
   main: dist/index.js

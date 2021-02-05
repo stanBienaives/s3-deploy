@@ -18,10 +18,11 @@
   },
   "homepage": "https://github.com/vexelabs/s3-deploy#readme",
   "dependencies": {
+    "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "mime-types": "^2.1.27",
     "aws-sdk": "2.799.0",
-    "fast-glob": "^3.2.4"
+    "fast-glob": "^3.2.4",
+    "mime-types": "^2.1.27"
   },
   "devDependencies": {
     "typescript": "^4.1.2",
@@ -30,5 +31,9 @@
     "@types/uuid": "^8.3.0",
     "@vercel/ncc": "^0.25.1"
   },
-  "keywords": ["s3", "aws", "github actions"]
+  "keywords": [
+    "s3",
+    "aws",
+    "github actions"
+  ]
 }

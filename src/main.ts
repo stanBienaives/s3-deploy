@@ -14,7 +14,8 @@ async function run() {
     region: input('aws-region'),
     awsKeyPrefix: input('aws-key-prefix', false) ?? '',
     directory: input('directory'),
-    emptyBucketFirst: input('empty-bucket') === 'true'
+    emptyBucketFirst: input('empty-bucket') === 'true',
+    private: input('acl-private') ?? true,
   }
 
   const s3 = new aws.S3({
@@ -82,7 +83,7 @@ async function run() {
         return await s3.upload({
           Bucket: config.bucket,
           Body: stream,
-          ACL: 'public-read',
+          ACL: config.private ? 'private' : 'public-read',
           Key: s3Key,
           ContentType: mimeType
         }).promise()
