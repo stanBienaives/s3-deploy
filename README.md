@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Application
         run: ...
-      - uses: vexelabs/s3-deploy@v1
+      - uses: stanBienaives/s3-deploy@v2-rc2
         with:
           aws-key-id: ${{ secrets.AWS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -33,6 +33,7 @@ jobs:
           aws-key-prefix: my-project
           directory: dist
           empty-bucket: true
+          public: false
 ```
 
 This workflow would delete every single item in the bucket, upload every single
@@ -50,6 +51,7 @@ directory inside the S3 bucket.
 | aws-key-prefix | optional | A prefix to the S3 Key for each uploaded object |
 | directory | required | The directory to upload to S3 |
 | empty-bucket | required | Whether to get rid of all contents in the bucket before uploading. (neat for automatic deployment of api docs) |
+| public | optional | Set the acl of document to public (boolean)|
 
 ## License
 
