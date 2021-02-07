@@ -68,6 +68,8 @@ async function run() {
         }
         const s3Key = `${config.awsKeyPrefix}${file}`
 
+        console.log(s3Key);
+
         // Try to get the mime type of the file, default to undefined if it
         // could not be resolved.
         let mimeType: string | undefined | false = mime.lookup(file)
