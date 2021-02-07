@@ -68,7 +68,7 @@ async function run() {
         }
         const s3Key = `${config.awsKeyPrefix}${file}`
 
-        console.log(s3Key);
+        core.info(`[s3-deploy] file: ${s3Key}`);
 
         // Try to get the mime type of the file, default to undefined if it
         // could not be resolved.
