@@ -66,7 +66,7 @@ async function run() {
           // If we're in the root directory
           baseKeyLength++
         }
-        const s3Key = `${config.awsKeyPrefix}${file.substr(baseKeyLength)}`
+        const s3Key = `${config.awsKeyPrefix}${file}`
 
         // Try to get the mime type of the file, default to undefined if it
         // could not be resolved.
