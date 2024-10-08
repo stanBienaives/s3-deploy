@@ -29,9 +29,9 @@ async function run() {
     core.info('[s3-deploy] Emptying S3 Bucket')
 
     const getObjects = () => s3.listObjects({
-      Bucket: config.bucket
-    }).promise()
-
+          Bucket: config.bucket,
+          Prefix: config.awsKeyPrefix
+        }).promise()
     // Delete all objects until there are no more
     let objects = await getObjects()
 
