@@ -27,6 +27,10 @@ inputs:
     description: Directory on Actions runner to upload to S3
     required: true
 
+  regex-filter:
+    description: Regex filter to apply to files in the directory
+    required: false
+
   empty-bucket:
     description: Empties the old contents in the bucket before uploading the new files
     required: true

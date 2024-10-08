@@ -16,6 +16,7 @@ async function run() {
     directory: input('directory'),
     emptyBucketFirst: input('empty-bucket') === 'true',
     private: input('acl-private') ?? true,
+    regexFilter: input('regex-filter', false) ?? ''
   }
 
   const s3 = new aws.S3({
@@ -57,6 +58,12 @@ async function run() {
 
   await Promise.all(
     files
+      .filter(file => {
+        if (config.regexFilter === '') {
+          return true
+        }
+        return new RegExp(config.regexFilter).test(file)
+      })
       .map(async file => {
         // Strip a slash and the host directory from S3 Key
         //   $folder/path/to/file
